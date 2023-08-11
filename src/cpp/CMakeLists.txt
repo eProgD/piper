@@ -40,7 +40,19 @@ target_compile_options(piper PUBLIC
 
 target_compile_definitions(piper PUBLIC _PIPER_VERSION=${piper_version})
 
+install(DIRECTORY ${PIPER_PHONEMIZE_ROOTDIR}/lib/espeak-ng-data DESTINATION .)
 install(TARGETS piper DESTINATION lib)
+
+install(DIRECTORY 
+${PIPER_PHONEMIZE_ROOTDIR}/lib
+DESTINATION lib_shared FILES_MATCHING PATTERN "libespeak-ng*")
+install(DIRECTORY 
+${PIPER_PHONEMIZE_ROOTDIR}/lib
+DESTINATION lib_shared FILES_MATCHING PATTERN "libonnxruntime*")
+install(FILES 
+${PIPER_PHONEMIZE_ROOTDIR}/lib/libpiper_phonemize.so
+DESTINATION lib_shared)
+
 install(FILES
 piper.hpp
 json.hpp
