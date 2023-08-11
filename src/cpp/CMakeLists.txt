@@ -9,9 +9,9 @@ file(READ "${CMAKE_CURRENT_LIST_DIR}/../../VERSION" piper_version)
 
 set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
-
-ADD_EXECUTABLE(piper main.cpp piper.cpp)
-
+#ADD_EXECUTABLE(piper main.cpp piper.cpp)
+ADD_LIBRARY(piper STATIC piper.cpp)
+#SHARED
 string(APPEND CMAKE_CXX_FLAGS " -Wall -Wextra -Wl,-rpath,'$ORIGIN'")
 string(APPEND CMAKE_C_FLAGS " -Wall -Wextra")
 
@@ -39,3 +39,24 @@ target_compile_options(piper PUBLIC
                        ${SPDLOG_CFLAGS_OTHER})
 
 target_compile_definitions(piper PUBLIC _PIPER_VERSION=${piper_version})
+
+install(TARGETS piper DESTINATION lib)
+install(FILES
+piper.hpp
+json.hpp
+utf8.h
+wavfile.hpp
+${PIPER_PHONEMIZE_ROOTDIR}/include/cpu_provider_factory.h 
+${PIPER_PHONEMIZE_ROOTDIR}/include/onnxruntime_c_api.h 
+${PIPER_PHONEMIZE_ROOTDIR}/include/onnxruntime_cxx_api.h 
+${PIPER_PHONEMIZE_ROOTDIR}/include/onnxruntime_cxx_inline.h 
+${PIPER_PHONEMIZE_ROOTDIR}/include/onnxruntime_run_options_config_keys.h 
+${PIPER_PHONEMIZE_ROOTDIR}/include/onnxruntime_session_options_config_keys.h 
+${PIPER_PHONEMIZE_ROOTDIR}/include/phoneme_ids.hpp 
+${PIPER_PHONEMIZE_ROOTDIR}/include/phonemize.hpp 
+${PIPER_PHONEMIZE_ROOTDIR}/include/provider_options.h 
+${PIPER_PHONEMIZE_ROOTDIR}/include/tashkeel.hpp
+${PIPER_PHONEMIZE_ROOTDIR}/include/espeak-ng/encoding.h 
+${PIPER_PHONEMIZE_ROOTDIR}/include/espeak-ng/espeak_ng.h 
+${PIPER_PHONEMIZE_ROOTDIR}/include/espeak-ng/speak_lib.h
+DESTINATION include)
